@@ -5,7 +5,7 @@ This repository contains my solutions to LeetCode problems, categorized by data 
 
 ## Repository Structure
 The repository is structured as follows:
-
+```
 |----- array/
 |  |----- 1. Problem Name1.py
 |  |----- 2. Problem Name2.py
@@ -31,6 +31,7 @@ The repository is structured as follows:
 |  |----- 2. Problem Name2.py
 |  |_____ .....
 |_____ README.md
+```
 
 Each directory contains the solutions to problems specific to that data structure. The solution files are named after the problem title and contains problem statement along with the solution implementation in python programming language.
 
