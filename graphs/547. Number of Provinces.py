@@ -1,5 +1,6 @@
 """
 547. Number of Provinces
+https://leetcode.com/problems/number-of-provinces/
 
 There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is 
 connected directly with city c, then city a is connected indirectly with city c.
@@ -24,10 +25,9 @@ class Solution:
     def buildGraph(self, edges):
         graph = {}
         for i in range(len(edges)):
+            graph[i + 1] = []
             for j in range(len(edges[i])):
-                if (i + 1) not in graph:
-                    graph[i + 1] = []
-                if ((i != j) and (edges[i][j] != 0)):
+                if edges[i][j] == 1 and i != j:
                     graph[i + 1].append(j + 1)
         return graph
 
@@ -35,16 +35,16 @@ class Solution:
         graph = self.buildGraph(isConnected)
         count = 0
         visited = set()
-        for key in graph:
-            stack = [ key ]
-            if key not in visited:
+        
+        for node in graph:
+            queue = [ node ]
+            if node not in visited:
+                while queue:
+                    src = queue.pop(0)
+                    visited.add(src)
+                    for neighbour in graph[src]:
+                        if neighbour not in visited:
+                            queue.append(neighbour)
                 count += 1
-            
-            while len(stack) > 0:
-                current = stack.pop()
 
-                if current not in visited:
-                    visited.add(current)
-                    for neighbour in graph[current]:
-                        stack.append(neighbour)
         return count
