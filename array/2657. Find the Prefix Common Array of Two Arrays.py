@@ -28,14 +28,20 @@ At i = 2: 1, 2, and 3 are common in A and B, so C[2] = 3.
 
 class Solution:
     def findThePrefixCommonArray(self, A: List[int], B: List[int]) -> List[int]:
-        n = len(A)
+        count = 0
         res = []
-        for i in range(n):
-            temp_a = A[:i+1]
-            temp_b = B[:i+1]
-            c = 0
-            for i in temp_a:
-                if i in temp_b:
-                    c+=1
-            res.append(c)
+        visited = set()
+
+        for i in range(len(A)):
+            if A[i] == B[i]:
+                count += 1
+            else:
+                if A[i] in visited:
+                    count += 1
+                if B[i] in visited:
+                    count += 1
+            res.append(count)
+            visited.add(A[i])
+            visited.add(B[i])
+        
         return res
