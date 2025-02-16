@@ -28,38 +28,29 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-        row_size = len(board)
-        col_size = len(board[0])
-        start_index = []
+        nr = len(board)
+        nc = len(board[0])
+        src = []
+        visited = set()
+        r_c_delta = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
-        for i in range(row_size):
-            for j in range(col_size):
-                if board[i][j] == "O":
-                    start_index.append([i, j])
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if i == 0 or i == nr - 1 or j == 0 or j == nc - 1:
+                    if board[i][j] == "O":
+                        src.append((i, j))
+                        visited.add((i, j))
         
-        for i, j in start_index:
-            flag = False
-            indexes = []
-            queue = [[i, j]]
-            visited = set()
-            pos = str(i) + "," + str(j)
-            visited.add(pos)
-
-            while len(queue) > 0:
-                row, col = queue.pop(0)
-                if row == 0 or col == 0 or row == row_size - 1 or col == col_size -1:
-                    flag = True
-                    break
-                indexes.append([row, col])
-                r_c_delta = [[0, 1], [0, -1], [1, 0], [-1, 0]]
-
-                for dr, dc in r_c_delta:
-                    r = row + dr
-                    c = col + dc
-                    pos = str(r) + "," + str(c)
-                    if (0 <= r < row_size) and (0 <= c < col_size) and (pos not in visited) and (board[r][c] == "O"):
-                        visited.add(pos)
-                        queue.append([r, c])
-            if not flag:
-                for row, col in indexes:
-                    board[row][col] = "X"
+        while src:
+            i, j = src.pop(0)
+            for dr, dc in r_c_delta:
+                r = i + dr
+                c = j + dc
+                if 0 <= r < len(board) and 0 <= c < len(board[0]) and (r, c) not in visited and board[r][c] == "O":
+                    src.append((r, c))
+                    visited.add((r, c))
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == "O" and (i, j) not in visited:
+                    board[i][j] = "X"
