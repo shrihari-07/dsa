@@ -30,6 +30,18 @@ Output: [1]
 #         self.right = right
 class Solution:
     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        def recursiveTraversal(root):
+            if root is None:
+                return []
+            left_values = recursiveTraversal(root.left)
+            right_values = recursiveTraversal(root.right)
+            return [root.val, *left_values, *right_values]
+
+        return recursiveTraversal(root)
+
+
+class Solution:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         output = []
         stack = [ root ]
 
