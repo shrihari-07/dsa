@@ -38,3 +38,25 @@ class Solution:
             return [*left_values, *right_values, root.val]
         
         return recursiveTraversal(root)
+
+
+class Solution:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        output = []
+        stack = []
+        r = root
+        last_visited = None
+        
+        while stack or r:
+            while r:
+                stack.append(r)
+                r = r.left
+            
+            peek_node = stack[-1]
+            if peek_node.right and last_visited != peek_node.right:
+                r = peek_node.right
+            else:
+                output.append(peek_node.val)
+                last_visited = stack.pop()
+        
+        return output
