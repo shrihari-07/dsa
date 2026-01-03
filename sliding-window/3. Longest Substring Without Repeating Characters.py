@@ -23,19 +23,16 @@ Notice that the answer must be a substring, "pwke" is a subsequence and not a su
 
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        n = len(s)
-        max_count = 0
+        left = 0
+        length = 0
+        visited = set()
 
-        for i in range(n):
-            char_set = set()
-            count = 0
-            for char in s[i: n]:
-                if char in char_set:
-                    break
-                char_set.add(char)
-                count += 1
+        for right in range(len(s)):
+            while s[right] in visited:
+                visited.remove(s[left])
+                left += 1
             
-            if count > max_count:
-                max_count = count
+            visited.add(s[right])
+            length = max(length, right - left + 1)
         
-        return max_count
+        return length
