@@ -38,3 +38,22 @@ class Solution:
             return [*left_values, root.val, *right_values]
         
         return recursiveTraversal(root)
+
+
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        ans = []
+        stack = []
+        curr = root
+
+        while curr is not None or len(stack) > 0:
+            while curr is not None:
+                stack.append(curr)
+                curr = curr.left
+
+            curr = stack.pop()
+            ans.append(curr.data)
+            
+            curr = curr.right
+
+        return ans
