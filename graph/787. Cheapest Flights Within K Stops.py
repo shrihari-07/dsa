@@ -43,7 +43,6 @@ class Solution:
         
         while queue:
             s, p, stp = queue.popleft()
-            print(p, fare[s])
             if s == dst and stp <= k and p < cheapest_price:
                 cheapest_price = p
             for neighbour, price in graph[s]:
