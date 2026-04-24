@@ -29,33 +29,29 @@ The graph is shown above.
 The optimal path with no stops from city 0 to 2 is marked in red and has cost 500.
 """
 
+from collections import defaultdict, deque
+
 class Solution:
-    def build_graph(self, flights, n):
-        graph = {}
-        for i in range(n):
-            graph[i] = []
-        for flight in flights:
-            graph[flight[0]].append((flight[1], flight[2]))
-        return graph
-
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        MAX_PRICE = 99999
-        graph = self.build_graph(flights, n)
-        price_lst = [99999] * n
-        queue = [(src, 0, -1)]
-        cheapest_price = 99999
+        graph = defaultdict(list)
+        fare = [float("inf")] * n
+        queue = deque([ (src, 0, -1) ])
+        cheapest_price = float("inf")
 
+        for flight in flights:
+            graph[flight[0]].append([flight[1], flight[2]])
+        
         while queue:
-            source, price, stp = queue.pop(0)
-            if source == dst and stp <= k:
-                if cheapest_price > price:
-                    cheapest_price = price
-            for neighbour, p in graph[source]:
-                if price_lst[neighbour] > p + price:
-                    price_lst[neighbour] = p + price
-                    queue.append((neighbour, price_lst[neighbour], stp + 1))
-
-        if cheapest_price == 99999:
+            s, p, stp = queue.popleft()
+            print(p, fare[s])
+            if s == dst and stp <= k and p < cheapest_price:
+                cheapest_price = p
+            for neighbour, price in graph[s]:
+                if price + p < fare[neighbour]:
+                    queue.append((neighbour, price + p, stp + 1))
+                    fare[neighbour] = price + p
+        
+        if cheapest_price == float("inf"):
             return -1
         
         return cheapest_price
